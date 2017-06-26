@@ -1,0 +1,26 @@
+<resources>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <string name="app_name">Plan Zajec</string>
+
+    <string name="pn">Poniedziałek</string>
+    <string name="wt">Wtorek</string>
+    <string name="sr">Środa</string>
+    <string name="czw">Czwartek</string>
+    <string name="pt">Piątek</string>
+    <string name="sob">Sobota</string>
+    <string name="niedz">Niedziela</string>
+
+    <string name="wybierz_dzien">Wybierz dzień</string>
+    <string name="czas_trwania_zajec">Czas trwania zajęć</string>
+    <string name="wybierz_typ_zajec">Wybierz typ zajęć</string>
+
+    <string name="lektorat">Lektorat</string>
+    <string name="laboratoryjne">Ćwiczenia laboratoryjne</string>
+    <string name="projektowe">Ćwiczenia projektowe</string>
+    <string name="wyklad">Wykład</string>
+    <string name="audytoyjne">Ćwiczenia audytoryjne</string>
+    <string name="fill_this">Wypełnij to pole</string>
+
+</resources>
