@@ -3,22 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.agh.mystudyplan.NotesActivity"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    tools:context="com.agh.mystudyplan.NotesActivity">
 
     <TextView
         android:id="@+id/sub_notes_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="przedmiot"
-        android:layout_margin="8dp"/>
+        android:layout_margin="8dp"
+        android:text="przedmiot" />
 
-    <EditText
-        android:id="@+id/sub_notes_edit"
+    <ScrollView
+        android:id="@+id/sub_notes_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/sub_notes_text"
-        android:layout_margin="8dp"/>
+        >
+
+        <EditText
+            android:id="@+id/sub_notes_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp" />
+    </ScrollView>
 
     <Button
         android:id="@+id/add_button"
@@ -26,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/sub_notes_edit"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="16dp"
         android:background="@android:color/transparent"
         android:text="Dodaj"

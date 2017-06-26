@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    private ViewPager mViewPager;
+    private static ViewPager mViewPager;
 
 
     // wygenerowane automatycznie podczas tworzenia projektu
@@ -120,9 +120,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+        public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
             Bundle args = getArguments();
             PlanDataBase planDataBase;
@@ -173,9 +173,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
                     Intent intent = new Intent(getContext(), NotesActivity.class);
-                    intent.putExtra("day", container.getId());
+                    intent.putExtra("day", mViewPager.getCurrentItem());
                     intent.putExtra("subject", position);
                     startActivity(intent);
                 }
