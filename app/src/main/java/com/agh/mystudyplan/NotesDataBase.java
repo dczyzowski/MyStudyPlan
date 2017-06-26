@@ -3,9 +3,6 @@ package com.agh.mystudyplan;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.util.HashSet;
-
-
 public class NotesDataBase {
 
     SharedPreferences planLocalDatabase;
