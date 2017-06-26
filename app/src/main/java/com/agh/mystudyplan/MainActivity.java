@@ -1,5 +1,8 @@
 package com.agh.mystudyplan;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -102,6 +105,13 @@ public class MainActivity extends AppCompatActivity {
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
 
+        //result daje nam informaje o tym ktora akcja zostala wykonana, zeby odebrac jej wyniki
+        private static final int RESULT_NEW_SUBJECT = 10;
+
+        boolean isLongClicked = false;
+        CalendarAdapter calendarAdapter;
+        static PlanDataBase planDataBase;
+
         public PlaceholderFragment() {
         }
 
@@ -120,69 +130,107 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public View onCreateView(final LayoutInflater inflater, ViewGroup container,
+        public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                                  Bundle savedInstanceState) {
             final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
             Bundle args = getArguments();
-            PlanDataBase planDataBase;
 
-            switch (args.getInt(ARG_SECTION_NUMBER)) {
-                case 1:
-                    planDataBase = new PlanDataBase(getContext(), getString(R.string.pn));
-                    break;
-
-                case 2:
-                    planDataBase = new PlanDataBase(getContext(), getString(R.string.wt));
-                    break;
-
-                case 3:
-                    planDataBase = new PlanDataBase(getContext(), getString(R.string.sr));
-                    break;
-
-                case 4:
-                    planDataBase = new PlanDataBase(getContext(), getString(R.string.czw));
-                    break;
-
-                case 5:
-                    planDataBase = new PlanDataBase(getContext(), getString(R.string.pt));
-                    break;
-
-                case 6:
-                    planDataBase = new PlanDataBase(getContext(), getString(R.string.sob));
-                    break;
-
-                case 7:
-                    planDataBase = new PlanDataBase(getContext(), getString(R.string.niedz));
-                    break;
-
-                default:
-                    planDataBase = new PlanDataBase(getContext(), getString(R.string.niedz));
-                    break;
-            }
-
-            ArrayList<MySubject> subjectsList = planDataBase.getRecords();
-
-
-
-            CalendarAdapter calendarAdapter = new CalendarAdapter(getContext(), R.layout.calendar_row,
+            final ArrayList<MySubject> subjectsList = getArray(getContext(), args.getInt(ARG_SECTION_NUMBER));
+            calendarAdapter = new CalendarAdapter(getContext(), R.layout.calendar_row,
                     subjectsList);
+
             ListView listView = (ListView) rootView.findViewById(R.id.calendary);
             listView.setAdapter(calendarAdapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (!isLongClicked) {
+                        Intent intent = new Intent(getContext(), NotesActivity.class);
+                        intent.putExtra("day", mViewPager.getCurrentItem());
+                        intent.putExtra("subject", position);
+                        startActivityForResult(intent, RESULT_NEW_SUBJECT);
+                    }
+                }
+            });
 
-                    Intent intent = new Intent(getContext(), NotesActivity.class);
-                    intent.putExtra("day", mViewPager.getCurrentItem());
-                    intent.putExtra("subject", position);
-                    startActivity(intent);
+            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                    isLongClicked = true;
+
+                    // tworze alert dialog w ktorym informuje uzytkownika o probie usuniecia
+                    // przedmiotu z listy
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setCancelable(true);
+                    builder.setPositiveButton("Usuń", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            subjectsList.remove(position);
+                            planDataBase.putArray(subjectsList);
+                            calendarAdapter.notifyDataSetChanged();
+                            dialog.dismiss();
+                            isLongClicked = false;
+                        }
+                    });
+                    builder.setMessage("Czy chcesz usunąć przedmiot " +
+                            subjectsList.get(position).getSubject());
+
+                    builder.setTitle("Usuń przedmiot");
+                    builder.setNegativeButton(getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            isLongClicked = false;
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    return false;
                 }
             });
 
 
             return rootView;
         }
+
+        public static ArrayList<MySubject> getArray(Context context, int position) {
+            switch (position) {
+                case 1:
+                    planDataBase = new PlanDataBase(context, context.getString(R.string.pn));
+                    break;
+                case 2:
+                    planDataBase = new PlanDataBase(context, context.getString(R.string.wt));
+                    break;
+                case 3:
+                    planDataBase = new PlanDataBase(context, context.getString(R.string.sr));
+                    break;
+                case 4:
+                    planDataBase = new PlanDataBase(context, context.getString(R.string.czw));
+                    break;
+                case 5:
+                    planDataBase = new PlanDataBase(context, context.getString(R.string.pt));
+                    break;
+                case 6:
+                    planDataBase = new PlanDataBase(context, context.getString(R.string.sob));
+                    break;
+                case 7:
+                    planDataBase = new PlanDataBase(context, context.getString(R.string.niedz));
+                    break;
+                default:
+                    planDataBase = new PlanDataBase(context, context.getString(R.string.niedz));
+                    break;
+            }
+            return planDataBase.getRecords();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        mSectionsPagerAdapter.notifyDataSetChanged();
 
     }
 

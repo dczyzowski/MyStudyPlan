@@ -20,15 +20,10 @@ public class AddToPlanDialog extends AppCompatActivity {
     Button mAddButton;
     Button mCancelButton;
 
-    String carName;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_add_to_plan);
-
-        //pobiera z intencji informacje wejsciowa, nazwe samochodu
-        carName = getIntent().getStringExtra("carName");
 
         // deklaruje obiekty
         subject = (EditText) findViewById(R.id.subject_edit);
@@ -63,7 +58,6 @@ public class AddToPlanDialog extends AppCompatActivity {
         // generuje liste elementow w spinerze
         subjectTypeSpinner.setAdapter(new ArrayAdapter<>(getBaseContext(),
                 android.R.layout.simple_spinner_dropdown_item, types));
-
 
         // Obiekt klasy numberPicker odpowiada za element w ktorym mozemy przesowac palcem
         // aby wybrac interesujaca nas godzine

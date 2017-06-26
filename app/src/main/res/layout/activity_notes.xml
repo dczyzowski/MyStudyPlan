@@ -11,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:text="przedmiot" />
+        android:text="Notatki"
+        android:textSize="16dp"
+        android:textStyle="bold"/>
 
     <ScrollView
         android:id="@+id/sub_notes_scroll"

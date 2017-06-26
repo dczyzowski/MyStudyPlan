@@ -3,13 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="8dp"
-    tools:context="com.agh.mystudyplan.MainActivity$PlaceholderFragment">
+    tools:context="com.agh.mystudyplan.MainActivity$PlaceholderFragment"
+    android:fitsSystemWindows="true">
 
     <ListView
         android:id="@+id/calendary"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@null"
-        android:dividerHeight="0dp"/>
+        android:dividerHeight="0dp"
+        android:layout_marginBottom="?attr/actionBarSize"/>
 
 </RelativeLayout>

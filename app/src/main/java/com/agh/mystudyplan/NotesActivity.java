@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class NotesActivity extends AppCompatActivity {
 
     Button save;
@@ -19,7 +21,13 @@ public class NotesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notes);
 
         Intent intent = getIntent();
-        getSupportActionBar().setTitle(" " + intent.getIntExtra("day", 9));
+        int arrayDay = intent.getIntExtra("day", 9) + 1;
+        int arrayPosition = intent.getIntExtra("subject", 9);
+
+        ArrayList<MySubject> subjects = MainActivity.PlaceholderFragment.getArray(getApplicationContext(),
+                arrayDay);
+
+        getSupportActionBar().setTitle(subjects.get(arrayPosition).getSubject());
 
         reject = (Button) findViewById(R.id.cancel_button);
         save = (Button) findViewById(R.id.add_button);
